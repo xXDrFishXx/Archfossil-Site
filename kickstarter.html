@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archfossil — Kickstarter</title>
+    <meta name="description" content="Back Archfossil on Kickstarter. Help bring this tabletop role-playing game to life and join the adventure.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/Home Icon Round.png">
+    <style>
+        /* ── Reset & Base ─────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Lora', Georgia, serif;
+            color: #dce8d8;
+            background: #0b0f0b;
+            line-height: 1.7;
+        }
+        img { max-width: 100%; display: block; }
+        a { color: inherit; text-decoration: none; }
+
+        /* ── Palette ──────────────────────────────────── */
+        :root {
+            --accent:       #527a4e;
+            --accent-light: #7aad75;
+            --dark:         #0b0f0b;
+            --darker:       #070a07;
+            --stone:        #1a241a;
+            --stone-light:  #2b3a2b;
+            --parchment:    #dce8d8;
+            --muted:        #8a9e86;
+        }
+
+        /* ── Typography ───────────────────────────────── */
+        h1, h2, h3, h4 { font-family: 'Cinzel', serif; color: var(--accent-light); }
+
+        /* ── Navigation ───────────────────────────────── */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(11, 15, 11, 0.92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--stone);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .nav-brand {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 1.25rem;
+            color: var(--accent-light);
+            letter-spacing: 0.08em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+        .nav-links { display: flex; gap: 0.25rem; list-style: none; }
+        .nav-links a {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.04em;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-links a:hover { background: var(--stone); color: var(--accent-light); }
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--parchment);
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+
+        /* ── Utility ──────────────────────────────────── */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: var(--accent);
+            margin: 0 auto 2.5rem;
+            border: none;
+        }
+
+        /* ── Buttons ──────────────────────────────────── */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            border: none;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(82,122,78,0.3);
+        }
+        .btn-primary:hover { background: var(--accent-light); box-shadow: 0 6px 28px rgba(82,122,78,0.4); }
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-light);
+            border: 2px solid var(--accent-light);
+        }
+        .btn-outline:hover { background: rgba(82,122,78,0.1); }
+        .btn-large {
+            padding: 1.1rem 3rem;
+            font-size: 1.15rem;
+        }
+
+        /* ── Hero ─────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 1.5rem 4rem;
+            background:
+                radial-gradient(ellipse at 50% 80%, rgba(82,122,78,0.1) 0%, transparent 60%),
+                linear-gradient(180deg, var(--darker) 0%, var(--dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='none' stroke='%23527a4e' stroke-opacity='0.04'/%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 750px; }
+        .hero-banner {
+            max-width: 100%;
+            width: 550px;
+            margin: 0 auto 1.5rem;
+            filter: drop-shadow(0 4px 24px rgba(82,122,78,0.25));
+        }
+        .hero-tagline {
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+        .hero-cta-group { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+
+        /* ── Campaign Details ──────────────────────────── */
+        .section { padding: 5rem 0; }
+        .section-alt { background: var(--stone); }
+
+        .campaign-intro {
+            max-width: 750px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .campaign-intro p {
+            color: var(--parchment);
+            font-size: 1.05rem;
+            margin-bottom: 1.25rem;
+        }
+        .campaign-intro p:last-child { margin-bottom: 0; }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .highlight-card {
+            background: var(--dark);
+            border: 1px solid var(--stone-light);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .highlight-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+        .highlight-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .highlight-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+        }
+        .highlight-card p { color: var(--muted); font-size: 0.95rem; }
+
+        /* ── CTA Banner ───────────────────────────────── */
+        .cta-banner {
+            padding: 5rem 0;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at 50% 50%, rgba(82,122,78,0.12) 0%, transparent 70%),
+                var(--dark);
+        }
+        .cta-banner h2 {
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            margin-bottom: 1rem;
+        }
+        .cta-banner p {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+        .cta-banner .btn { margin: 0 0.5rem; }
+
+        /* ── Footer ───────────────────────────────────── */
+        .footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            border-top: 1px solid var(--stone);
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+        .footer a { color: var(--accent-light); }
+        .footer a:hover { text-decoration: underline; }
+
+        /* ── Responsive ───────────────────────────────── */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px; left: 0; right: 0;
+                background: rgba(11,15,11,0.97);
+                border-bottom: 1px solid var(--stone);
+                padding: 1rem;
+            }
+            .nav-links.active { display: flex; }
+            .mobile-toggle { display: block; }
+            .hero { min-height: 80vh; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ────────────── Navigation ────────────── -->
+<nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="nav-brand">
+            <img src="assets/Home Icon Round.png" alt="Archfossil" class="nav-brand-icon">
+            Archfossil
+        </a>
+        <button class="mobile-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('active')">&#9776;</button>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#world">The World</a></li>
+            <li><a href="index.html#connect">Connect</a></li>
+            <li><a href="index.html#enroll">Enroll</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ────────────── Hero ────────────── -->
+<section class="hero">
+    <div class="hero-content">
+        <img src="assets/Banner.png" alt="Archfossil" class="hero-banner">
+        <p class="hero-tagline">Help bring Archfossil to life — back us on Kickstarter</p>
+        <div class="hero-cta-group">
+            <a href="#" id="ks-hero-link" class="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">Back Us on Kickstarter</a>
+            <a href="index.html" class="btn btn-outline">Back to Home</a>
+        </div>
+    </div>
+</section>
+
+<!-- ────────────── About the Campaign ────────────── -->
+<section class="section section-alt">
+    <div class="container">
+        <h2 style="font-size: clamp(1.8rem, 4vw, 2.8rem); text-align: center; margin-bottom: 0.4em;">About the Campaign</h2>
+        <p style="text-align: center; color: var(--muted); font-style: italic; margin-bottom: 2.5rem; font-size: 1.05rem;">Everything you need to know about our Kickstarter</p>
+        <hr class="divider">
+        <div class="campaign-intro">
+            <p>
+                <strong>Archfossil</strong> is more than a podcast — it's a living, breathing world waiting to be explored at your own table. Our Kickstarter campaign will fund the creation of a full tabletop RPG sourcebook, complete with original lore, maps, character options, and adventure modules set in the world you've come to love.
+            </p>
+            <p>
+                From the crumbling monoliths of the Shattered Expanse to the volcanic depths of the Molten Vaults, every corner of this world has been crafted with care. Now we need your help to bring it all together in one beautiful, professionally produced book.
+            </p>
+        </div>
+
+        <div class="highlights-grid">
+            <div class="highlight-card">
+                <div class="highlight-icon">&#128214;</div>
+                <h3>The Sourcebook</h3>
+                <p>A comprehensive guide to the world of Archfossil — lore, factions, locations, and history, all in one tome ready for your table.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">&#128506;</div>
+                <h3>Original Maps</h3>
+                <p>Hand-illustrated maps of key regions, dungeons, and cities to immerse your group in every session.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">&#9876;</div>
+                <h3>New Character Options</h3>
+                <p>Unique classes, ancestries, and abilities rooted in Archfossil's lore, designed for balanced and flavorful play.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">&#128220;</div>
+                <h3>Adventure Modules</h3>
+                <p>Ready-to-run adventures that take your party through the most iconic and dangerous corners of the world.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">&#127912;</div>
+                <h3>Original Artwork</h3>
+                <p>Commissioned illustrations bringing the creatures, characters, and landscapes of Archfossil to vivid life.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">&#127873;</div>
+                <h3>Exclusive Rewards</h3>
+                <p>Backer-only items including signed prints, custom dice sets, and early access to digital content.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ────────────── CTA Banner ────────────── -->
+<section class="cta-banner">
+    <div class="container">
+        <h2>Ready to Join the Adventure?</h2>
+        <p>Every pledge brings us closer to putting the world of Archfossil in your hands.</p>
+        <a href="#" id="ks-cta-link" class="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">Back Us on Kickstarter</a>
+    </div>
+</section>
+
+<!-- ────────────── Footer ────────────── -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2026 Archfossil TTRPG. All rights reserved.</p>
+        <p style="margin-top:0.5rem;">
+            <a href="index.html">Home</a> &middot;
+            <a href="index.html#about">About</a> &middot;
+            <a href="index.html#world">World</a> &middot;
+            <a href="index.html#connect">Connect</a> &middot;
+            <a href="index.html#enroll">Enroll</a>
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>

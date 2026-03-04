@@ -4,44 +4,548 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archfossil TTRPG</title>
+    <meta name="description" content="Archfossil — a tabletop role-playing game of ancient mysteries, forgotten civilizations, and untamed wilderness. Listen to our podcast, join the adventure, and enroll in our mail-in campaign.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/Home Icon Round.png">
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-        .navbar { background-color: #4CAF50; padding: 1em; }
-        .navbar a { color: white; text-decoration: none; padding: 14px 20px; display: inline-block; }
-        .hero { background-color: #66BB6A; color: white; padding: 50px 20px; text-align: center; }
-        .about, .world { padding: 20px; margin: 20px; background-color: #E8F5E9; }
-        .form-container { padding: 20px; background-color: #FFFFFF; border: 1px solid #9CCC65; }
-        h1, h2, h3 { color: #2E7D32; }
+        /* ── Reset & Base ─────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Lora', Georgia, serif;
+            color: #dce8d8;
+            background: #0b0f0b;
+            line-height: 1.7;
+        }
+        img { max-width: 100%; display: block; }
+        a { color: inherit; text-decoration: none; }
+
+        /* ── Palette ──────────────────────────────────── */
+        :root {
+            --accent:       #527a4e;
+            --accent-light: #7aad75;
+            --dark:         #0b0f0b;
+            --darker:       #070a07;
+            --stone:        #1a241a;
+            --stone-light:  #2b3a2b;
+            --parchment:    #dce8d8;
+            --muted:        #8a9e86;
+        }
+
+        /* ── Typography ───────────────────────────────── */
+        h1, h2, h3, h4 { font-family: 'Cinzel', serif; color: var(--accent-light); }
+        .section-heading {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            text-align: center;
+            margin-bottom: 0.4em;
+        }
+        .section-subheading {
+            text-align: center;
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* ── Utility ──────────────────────────────────── */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: var(--accent);
+            margin: 0 auto 2.5rem;
+            border: none;
+        }
+
+        /* ── Navigation ───────────────────────────────── */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(11, 15, 11, 0.92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--stone);
+            transition: background 0.3s;
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .nav-brand {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 1.25rem;
+            color: var(--accent-light);
+            letter-spacing: 0.08em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+        .nav-links { display: flex; gap: 0.25rem; list-style: none; }
+        .nav-links a {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.04em;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-links a:hover { background: var(--stone); color: var(--accent-light); }
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--parchment);
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+
+        /* ── Hero ─────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 1.5rem 4rem;
+            background:
+                radial-gradient(ellipse at 50% 80%, rgba(82,122,78,0.1) 0%, transparent 60%),
+                linear-gradient(180deg, var(--darker) 0%, var(--dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='none' stroke='%23527a4e' stroke-opacity='0.04'/%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 750px; }
+        .hero-banner {
+            max-width: 100%;
+            width: 550px;
+            margin: 0 auto 1.5rem;
+            filter: drop-shadow(0 4px 24px rgba(82,122,78,0.25));
+        }
+        .hero-tagline {
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+        .hero-cta-group { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            border: none;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(82,122,78,0.3);
+        }
+        .btn-primary:hover { background: var(--accent-light); box-shadow: 0 6px 28px rgba(82,122,78,0.4); }
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-light);
+            border: 2px solid var(--accent-light);
+        }
+        .btn-outline:hover { background: rgba(82,122,78,0.1); }
+
+        /* ── Section base ─────────────────────────────── */
+        .section { padding: 5rem 0; }
+        .section-alt { background: var(--stone); }
+
+        /* ── About / Intro ────────────────────────────── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .about-icon {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: var(--stone-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            border: 1px solid rgba(82,122,78,0.15);
+        }
+        .about-text p { margin-bottom: 1rem; color: var(--parchment); }
+        .about-text p:last-child { margin-bottom: 0; }
+
+        /* ── World ────────────────────────────────────── */
+        .section-world {
+            position: relative;
+            overflow: hidden;
+        }
+        .section-world::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('assets/WorldMap.png') center center / cover no-repeat;
+            opacity: 0.07;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .section-world::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 50% 50%, transparent 20%, var(--stone) 80%),
+                linear-gradient(180deg, var(--stone) 0%, transparent 15%, transparent 85%, var(--stone) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .section-world > .container {
+            position: relative;
+            z-index: 1;
+        }
+        .world-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .world-card {
+            background: rgba(11, 15, 11, 0.85);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--stone-light);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .world-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+        .world-card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+        .world-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+        }
+        .world-card p { color: var(--muted); font-size: 0.95rem; }
+
+        /* ── Links / Connect ──────────────────────────── */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--stone);
+            border: 1px solid var(--stone-light);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .link-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .link-card-icon { font-size: 1.8rem; flex-shrink: 0; }
+        .link-card-label {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .link-card-sub { font-size: 0.8rem; color: var(--muted); }
+
+        /* ── Enroll ────────────────────────────────────── */
+        .enroll-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--dark);
+            border: 1px solid var(--stone-light);
+            border-radius: 8px;
+            padding: 2.5rem;
+        }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.04em;
+            color: var(--accent-light);
+            margin-bottom: 0.4rem;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--stone-light);
+            border-radius: 4px;
+            background: var(--stone);
+            color: var(--parchment);
+            font-family: 'Lora', serif;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-submit {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .form-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+
+        /* ── Footer ───────────────────────────────────── */
+        .footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            border-top: 1px solid var(--stone);
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+        .footer a { color: var(--accent-light); }
+        .footer a:hover { text-decoration: underline; }
+
+        /* ── Responsive ───────────────────────────────── */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px; left: 0; right: 0;
+                background: rgba(11,15,11,0.97);
+                border-bottom: 1px solid var(--stone);
+                padding: 1rem;
+            }
+            .nav-links.active { display: flex; }
+            .mobile-toggle { display: block; }
+            .about-grid { grid-template-columns: 1fr; }
+            .hero { min-height: 80vh; }
+        }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <a href="#hero">Home</a>
-        <a href="#about">About</a>
-        <a href="#world">World</a>
-        <a href="#enroll">Enroll</a>
+
+<!-- ────────────── Navigation ────────────── -->
+<nav class="navbar" id="top">
+    <div class="container">
+        <a href="#top" class="nav-brand">
+            <img src="assets/Home Icon Round.png" alt="Archfossil" class="nav-brand-icon">
+            Archfossil
+        </a>
+        <button class="mobile-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('active')">&#9776;</button>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#world">The World</a></li>
+            <li><a href="kickstarter.html">Kickstarter</a></li>
+            <li><a href="#connect">Connect</a></li>
+            <li><a href="#enroll">Enroll</a></li>
+        </ul>
     </div>
-    <div class="hero" id="hero">
-        <h1>Welcome to Archfossil TTRPG</h1>
-        <p>Your adventure begins here.</p>
+</nav>
+
+<!-- ────────────── Hero ────────────── -->
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <img src="assets/Banner.png" alt="Archfossil" class="hero-banner">
+        <p class="hero-tagline">Unearth the past. Shape the future. Roll the dice.</p>
+        <div class="hero-cta-group">
+            <a href="#enroll" class="btn btn-primary">Join the Campaign</a>
+            <a href="#connect" class="btn btn-outline">Listen to the Podcast</a>
+        </div>
     </div>
-    <div class="about" id="about">
-        <h2>About Archfossil</h2>
-        <p>Archfossil is a unique tabletop role-playing game that takes you on an adventure through ancient worlds.</p>
+</section>
+
+<!-- ────────────── About the Show ────────────── -->
+<section class="section" id="about">
+    <div class="container">
+        <h2 class="section-heading">About the Show</h2>
+        <p class="section-subheading">An actual-play TTRPG experience like no other</p>
+        <hr class="divider">
+        <div class="about-grid">
+            <div class="about-icon" aria-hidden="true">&#9876;</div>
+            <div class="about-text">
+                <p>
+                    <strong>Archfossil</strong> is a tabletop role-playing adventure brought to life by a passionate group of storytellers, world-builders, and dice-rollers. Every session is an improvised saga of ancient mysteries, unlikely heroes, and choices that ripple across civilizations.
+                </p>
+                <p>
+                    Follow along as our players navigate treacherous ruins, broker fragile alliances, and uncover secrets buried for millennia. Whether you're a seasoned TTRPG veteran or brand-new to the hobby, Archfossil offers a welcoming table where every story matters.
+                </p>
+                <p>
+                    Catch every episode on our podcast, join the conversation on social media, and — if you're feeling bold — sign up for our mail-in campaign and become part of the story yourself.
+                </p>
+            </div>
+        </div>
     </div>
-    <div class="world" id="world">
-        <h2>Explore the World</h2>
-        <p>Dive into various realms filled with challenges and wonders.</p>
+</section>
+
+<!-- ────────────── The World ────────────── -->
+<section class="section section-alt section-world" id="world">
+    <div class="container">
+        <h2 class="section-heading">The World of Archfossil</h2>
+        <p class="section-subheading">A realm forged by time, ruin, and untamed magic</p>
+        <hr class="divider">
+        <div class="world-cards">
+            <div class="world-card">
+                <div class="world-card-icon">&#127956;</div>
+                <h3>The Frostmarch</h3>
+                <p>A vast frozen expanse of wind-scoured tundra and shattered ice fields in the far north. Nomadic tribes and relic-hunters brave its bitter cold, scavenging the bones of empires swallowed by permafrost.</p>
+            </div>
+            <div class="world-card">
+                <div class="world-card-icon">&#127748;</div>
+                <h3>The Thornweald</h3>
+                <p>An ancient, sprawling forest at the heart of the continent. Its canopy hides forgotten temples, primordial creatures, and groves where autumn never ends — a place untouched since the dawn of the world.</p>
+            </div>
+            <div class="world-card">
+                <div class="world-card-icon">&#9962;</div>
+                <h3>Ironhaven</h3>
+                <p>A towering fortress-city on the eastern coast, carved from pale stone and iron. Seat of a crumbling theocracy that clings to power through prophecy, trade, and the strength of its great sea-wall.</p>
+            </div>
+            <div class="world-card">
+                <div class="world-card-icon">&#128293;</div>
+                <h3>The Cradle</h3>
+                <p>Deep in the volcanic south lies a scarred landscape of molten rivers and ancient forges. Here, exiled artificers and forgotten cults tend fires that have burned since before recorded history.</p>
+            </div>
+        </div>
     </div>
-    <div class="form-container" id="enroll">
-        <h3>Mail-in Campaign Enrollment</h3>
-        <form>
-            <label for="name">Name:</label><br>
-            <input type="text" id="name" name="name"><br>
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email"><br><br>
-            <input type="submit" value="Enroll">
-        </form>
+</section>
+
+<!-- ────────────── Connect / Links ────────────── -->
+<section class="section" id="connect">
+    <div class="container">
+        <h2 class="section-heading">Connect With Us</h2>
+        <p class="section-subheading">Follow the adventure everywhere</p>
+        <hr class="divider">
+        <div class="links-grid">
+            <a href="#" class="link-card" target="_blank" rel="noopener noreferrer">
+                <span class="link-card-icon">&#127911;</span>
+                <div>
+                    <div class="link-card-label">Podcast</div>
+                    <div class="link-card-sub">Listen to every episode</div>
+                </div>
+            </a>
+            <a href="kickstarter.html" class="link-card">
+                <span class="link-card-icon">&#127918;</span>
+                <div>
+                    <div class="link-card-label">Kickstarter</div>
+                    <div class="link-card-sub">Back our project</div>
+                </div>
+            </a>
+            <a href="#" class="link-card" target="_blank" rel="noopener noreferrer">
+                <span class="link-card-icon">&#128247;</span>
+                <div>
+                    <div class="link-card-label">Instagram</div>
+                    <div class="link-card-sub">Behind-the-scenes art &amp; updates</div>
+                </div>
+            </a>
+            <a href="#" class="link-card" target="_blank" rel="noopener noreferrer">
+                <span class="link-card-icon">&#128172;</span>
+                <div>
+                    <div class="link-card-label">Discord</div>
+                    <div class="link-card-sub">Join the community</div>
+                </div>
+            </a>
+            <a href="#" class="link-card" target="_blank" rel="noopener noreferrer">
+                <span class="link-card-icon">&#9993;</span>
+                <div>
+                    <div class="link-card-label">X / Twitter</div>
+                    <div class="link-card-sub">News &amp; announcements</div>
+                </div>
+            </a>
+            <a href="#" class="link-card" target="_blank" rel="noopener noreferrer">
+                <span class="link-card-icon">&#9654;</span>
+                <div>
+                    <div class="link-card-label">YouTube</div>
+                    <div class="link-card-sub">Watch our sessions</div>
+                </div>
+            </a>
+        </div>
     </div>
+</section>
+
+<!-- ────────────── Mail-in Campaign Enrollment ────────────── -->
+<section class="section section-alt" id="enroll">
+    <div class="container">
+        <h2 class="section-heading">Join the Mail-in Campaign</h2>
+        <p class="section-subheading">Become part of the Archfossil story — from your own table</p>
+        <hr class="divider">
+        <div class="enroll-wrapper">
+            <form name="mail-campaign" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="mail-campaign">
+                <p style="display:none;">
+                    <label>Don't fill this out if you're human: <input name="bot-field"></label>
+                </p>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Mailing Address</label>
+                    <textarea id="address" name="address" placeholder="Street address, city, state/province, postal code, country" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="experience">TTRPG Experience</label>
+                    <select id="experience" name="experience">
+                        <option value="new">New to TTRPGs</option>
+                        <option value="some">Played a few sessions</option>
+                        <option value="experienced">Experienced player</option>
+                        <option value="veteran">Veteran / Game Master</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Anything else you'd like us to know?</label>
+                    <textarea id="message" name="message" placeholder="Optional message..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary form-submit">Enroll Now</button>
+                <p class="form-note">Your information will only be used for the Archfossil mail-in campaign.</p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ────────────── Footer ────────────── -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2026 Archfossil TTRPG. All rights reserved.</p>
+        <p style="margin-top:0.5rem;">
+            <a href="#about">About</a> &middot;
+            <a href="#world">World</a> &middot;
+            <a href="kickstarter.html">Kickstarter</a> &middot;
+            <a href="#connect">Connect</a> &middot;
+            <a href="#enroll">Enroll</a>
+        </p>
+    </div>
+</footer>
+
 </body>
 </html>
